@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실명확인</title>
+<style>
+    #submitBtn{
+        border-color: black;
+        background-color: white;
+        float: right;
+        width: 100px;
+        height: auto;
+    }
+    #submitBtn:hover{
+        background-color: #e5e5e5;
+    }
+</style>
+</head>
+<body>
+    
+    <Script>
+        function fnSubmit(){
+            var juTxt = document.subForm.juTxt;
+            var MinTxt = document.subForm.MinTxt;
+            var nameTxt = document.subForm.nameTxt;
+            
+            if(juTxt.value==""){
+	            alert("주민번호 앞자리를 입력하세요");
+	            return false;
+            }
+            
+            if(MinTxt.value==""){
+	            alert("주민번호 뒷자리를 입력하세요");
+	            return false;
+            }
+            if(nameTxt.value==""){
+	            alert("이름를 입력하세요");
+	            return false;
+            }
+            
+			if(juTxt.value.length<6){
+				alert("주민번호 앞자리6자를 모두 입력하세요");
+				return false;
+			}
+			
+			if(MinTxt.value.length<7){
+				alert("주민번호 뒷자리7자를 모두 입력하세요");
+				return false;
+			}
+        }
+        
+        
+    </Script>
+
+	<script>
+		function fnJuminFocus(obj){
+	        var strLength = obj.value.length;
+	        console.log("strLength", strLength);
+	        if(strLength>=6){
+	            document.getElementById("ju2").focus();
+	        }
+	    }
+	    function commonFocusMove(obj, mLength, next_obj){
+	        var strLength = obj.value.length;
+	        if(strLength >= mLength){
+	            document.getElementById(next_obj).focus();
+	        }
+	    }
+	</script>
+    <form name="subForm" onsubmit="return fnSubmit();" action="">
+        <table>
+        <tr>
+            <td>주민번호<br/><br/></td>
+            <td>
+                <input type="text" style="width: 100px;" id="ju1" name="juTxt" maxlength="6" onkeyup="fnJuminFocus(this);"> -
+                <input type="text" style="width: 100px;" id="ju2" name="MinTxt" maxlength="7" onkeyup="commonFocusMove(this,7,'tel1');">
+                <br/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td>이름<br/><br/><br></td>
+            <td>
+                <input type="text" name="nameTxt" style="width: 222px;" >
+                <br/><br/><br>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" id="submitBtn" value="다음">
+            </td>
+        </tr>
+    </table>
+    </form>
+    
+</body>
+</html>
