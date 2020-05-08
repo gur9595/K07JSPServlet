@@ -1,3 +1,5 @@
+<%@page import="model.BbsDTO"%>
+<%@page import="model.BbsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div class="row">		
@@ -34,17 +36,26 @@
 						</div>
 					</li>
 				</ul>
-
-				<form class="form-inline mt-3 ml-3" method="get" action="">
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Search">
-						<div class="input-group-append">
-							<button class="btn btn-warning" type="submit"><i class='fas fa-search' style='font-size:20px'></i></button>
-						</div>
-					</div>
-				</form>
+				
+				<!-- <form class="form-inline mt-3 ml-3" method="get" action="">
+            		<div class="input-group mb-3">
+               			<input type="text" class="form-control" placeholder="Search">
+               		<div class="input-group-append">
+                  		<button class="btn btn-warning" type="submit">
+                     	<i class='fas fa-search' style='font-size: 20px'></i>
+                 	 	</button>
+               		</div>
+            		</div>
+         		</form> -->
+				<%=session.getAttribute("USER_NAME") %>
+				<%=session.getAttribute("USER_ID") %>
+				<%if(session.getAttribute("USER_ID")!=null){ %>
+				<h5 class="ml-4"><%=session.getAttribute("USER_NAME") %>님 환영해요</h5>
+				<%} %>
+				
 				<ul class="navbar-nav ml-auto" >
 				<%if(session.getAttribute("USER_ID")==null){ %>
+				
 					<li class="nav-item"><!-- 회원가입 -->
 						<a class="nav-link text-dark" href="#"><i class='fas fa-edit' style='font-size:20px'></i>회원가입</a>
 					</li>

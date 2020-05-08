@@ -131,8 +131,8 @@ public class MemberDAO {
 			
 			if(rs.next()) {
 				maps.put("id", rs.getString(1));
-				maps.put("pass", rs.getString(1));
-				maps.put("name", rs.getString(1));
+				maps.put("pass", rs.getString(2));
+				maps.put("name", rs.getString(3));
 				
 			} else {
 				System.out.println("결과셋이없습니다");
