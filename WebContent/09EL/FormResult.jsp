@@ -28,13 +28,13 @@
 		<li>학력 : <%=request.getParameter("grade") %></li>
 	</ul>
 	
-	<!-- 
+	<%-- 
 		EL 폼값을 받을떄
 			text, radio와 같은폼값은 ${param.폼이름}
 			checkbox와 같은 다중 폼값은 ${paramValues.폼이름}
 		또한 쿼리스트링으로 전달되는 파라미터도 동일하게 받을 수 있다
 		웹주소 html?page=10 ==>${param.page}
-	 -->
+	 --%>
 	<h3>EL로 받기</h3>
 	<ul>
 		<li>이름 : ${param.name }</li>
@@ -44,7 +44,7 @@
 				${s } &nbsp;
 			</c:forEach>
 		</li>
-		<li>학력  : ${param.grade }</li>
+		<li>학력 : ${param.grade }</li>
 	</ul>
 </body>
 </html>
