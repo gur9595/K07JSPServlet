@@ -14,7 +14,8 @@
 			
 			<div class="row">
 			<!-- 검색부분 -->
-			<form class="form-inline ml-auto" name="searchFrm" method="get">	
+			<form class="form-
+			inline ml-auto" name="searchFrm" method="get">	
 				<div class="form-group">
 					<select name="searchColumn" class="form-control">
 						<option value="title">제목</option>
@@ -74,7 +75,7 @@
 							${map.totalCount - (((map.nowPage-1) * map.pageSize) + loop.index) }
 						</td>
 						<td class="text-left">
-							<a href="../DataRoom/DataView?idx=${row.idx}&nowPage=${param.nowPage } }">
+							<a href="../DataRoom/DataView?idx=${row.idx}&nowPage=${param.nowPage }&searchColumn=${param.searchColumn }&searchWord=${param.searchWord }">
 								${row.title }
 							</a>
 						</td>
@@ -115,12 +116,12 @@
 			<div class="row mt-3">
 				<div class="col">
 					<!-- 페이지번호 부분-->
-					<div style="text-align: center; padding: 0 0 10px 0;">
-					
-					</div>
+					<%-- <div style="text-align: center; padding: 0 0 10px 0;">
+					${map.pagingImg }
+					</div> --%>
 					<!-- 페이지번호 부트스트랩4 적용 -->
 					<ul class='pagination justify-content-center'>
-					
+						${map.pagingImg }
 					</ul>
 				</div>				
 			</div>

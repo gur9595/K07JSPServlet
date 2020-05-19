@@ -1,112 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>K07JSPServlet</display-name>
-  <!-- 
-  	JDBC사용을 위한 "컨텍스트 초기화 파라미터"를 설정
-  	해당 설정값은 웹어플리케이션 모든 JSP혹은 서블릿에서 접근가능.
-   -->
-  <context-param>
-  	<param-name>JDBCDriver</param-name>
-  	<param-value>oracle.jdbc.OracleDriver</param-value>
-  </context-param>
-  
-  <context-param>
-  	<param-name>ConnectionURL</param-name>
-  	<param-value>jdbc:oracle:thin:@localhost:1521:orcl</param-value>
-  </context-param>
-  <!-- 
-  게시판 페이지처리 관련 파라미터
-  PAGE_SIZE: 한페이지에 출력할 게시물의 갯수 보통 10~30정도로 설정
-  BLOCK_PAGE: 한블록당 출력할 페이지번호의 갯수 보통 5~10정도로 설정
-   -->
-  <context-param>
-  	<param-name>PAGE_SIZE</param-name>
-  	<param-value>10</param-value>
-  </context-param>
-  
-  <context-param>
-  	<param-name>BLOCK_PAGE</param-name>
-  	<param-value>5</param-value>
-  </context-param>
   
   <!-- 
-  세션유지시간설정 : 여기서 설정한 시간은 '분' 단위
+     JDBC사용을 위한 "컨텍스트 초기화 파라미터"를 설정
+     해당 설정값은 웹어플리케이션 모든 JSP혹은 서블릿에서
+     접근가능.
    -->
-   <session-config>
-   	<session-timeout>60</session-timeout>
-   </session-config>
-   
-   
+  <context-param>
+     <param-name>JDBCDriver</param-name>
+     <param-value>oracle.jdbc.OracleDriver</param-value>
+  </context-param>
+  <context-param>
+     <param-name>ConnectionURL</param-name>
+     <param-value>jdbc:oracle:thin:@localhost:1521:orcl</param-value>
+  </context-param>
+  
+  
    <!-- 
-	 EL에서 Java클래스의 메소드 호출 절차 및 방법
-	 
-	 1. 클래스와 메소드를 정의한다 단 메소드 정의시 반드시
-	  	public static으로 선언해야한다
-	  	
-	 2. TLD파일을 생성한다. Tag Library Descriptor의 약자로
-		web-inf폴더 하위 아무곳이나 생성하면 컨테이너가 찾아서 사용하게된다
-		우리는 tlds 폴더를 생성한후 해당 파일을 작성한다. 
-		파일 작성시 fn.tld를 참조한다
-	 3. web.xml에 내가 정의한 태그라이브러리 파일을 설정한다.
-	 	taglib-uri : JSP의 taglib지시어의 uri속성에 삽입할 값
-	 	taglib-location : 실제 tld 파일의 위치 (경로를 삽입함)
- -->
- 
-   <jsp-config>
-   	<taglib>
-   		<taglib-uri>myTagLibTld</taglib-uri>
-   		<taglib-location>/WEB-INF/tlds/MyTagLib.tld</taglib-location>
-   	</taglib>
-   </jsp-config>
-   
-   
-   
-   <!-- 예제1 : 서블릿 등록(매핑)하기 -->
-   <servlet>
-   	<servlet-name>NoJSPServlet</servlet-name>
-   	<!-- 요청명과 매핑되는 서블릿 클래스명 기술 (패키지를 반드시 포함해야함) -->
-   	<servlet-class>servlet.NoJSPServlet</servlet-class>
-   </servlet>
-   <servlet-mapping>
-   	   <!-- 해당 요청이 들어왔을때 호출할 서블릿의 이름을 재정 -->
-	   <servlet-name>NoJSPServlet</servlet-name>
-	   <!-- 요청명을 기술함 -->
-	   <url-pattern>/13Servlet/NoJSPServlet.do</url-pattern>
-   </servlet-mapping>
-   
-   <!-- 예제2: Jsp파일에서 내용을 출력함 또헌 서블릿 초기화파라미터 이용함 -->
-   <servlet>
-   	<servlet-name>HelloServlet</servlet-name>
-   	<servlet-class>servlet.HelloServlet</servlet-class>
-   	<init-param>
-   		<param-name>HELLO</param-name>
-   		<param-value>Hi~Hello~안뇽~web.xml</param-value>
-   	</init-param>
-   </servlet>
-   <servlet-mapping>
-   	<servlet-name>HelloServlet</servlet-name>
-   	<url-pattern>/13Servlet/HelloServlet.do</url-pattern>
-   </servlet-mapping>
-   
-   <!-- 예제3 : 어노테이션 통한 매핑이므로 매핑엘리먼트없음 -->
-   <!-- 예제4:간단한 사칙연산 계산기 구현 -->
-    <servlet>
-   	<servlet-name>CalculateServlet</servlet-name>
-   	<servlet-class>servlet.CalculateServlet</servlet-class>
-   </servlet>
-   <servlet-mapping>
-   	<servlet-name>CalculateServlet</servlet-name>
-   	<url-pattern>/13Servlet/Calculate.kosmo</url-pattern>
-   </servlet-mapping>
-   
-   <!-- 예제 5: 간단한 MVC패턴 만들기 -->
-   <!-- 
-   	요청명 작성시 컨텍스트 루트 경로를 제외한 슬러쉬로 시작하는
-   	 경로를 사용해야한다 슬러쉬가 없으면 서버가 재시동 되지 않는다
-   	 요청명을 통해 해당 이름을 가진 서블릿 클래스를 찾아 요청을
-   	 전달한다 요청명에 대한 매핑시 엘리먼트의 순서를 변경할수없다
+   게시판 페이지처리(Paging) 관련 파라미터
+   PAGE_SIZE : 한 페이지에 출력 할 게시물의 갯수. 보통 10 ~ 30정도로 설정한다.
+   BLOCK_PAGE : 한 블록당 출력할 페이지 번호의 갯수. 보통 5 ~ 10정도로 설정한다.
     -->
-<servlet>
+   <context-param>
+       <param-name>PAGE_SIZE</param-name>
+       <param-value>10</param-value>
+     </context-param>
+     <context-param>
+       <param-name>BLOCK_PAGE</param-name>
+       <param-value>5</param-value>
+     </context-param>
+   
+  
+  
+  
+  <!-- 
+     세션유지시간설정 : 여기서 설정한 시간은 '분' 단위
+  -->
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+  
+  
+   
+   
+<!-- 
+   EL에서 Java클래스의 메소드 호출 절차 및 방법
+   
+   1. 클래스와 메소드를 정의한다. 
+      단, 메소드 정의 시 반드시 public static 으로 선언해야 한다.
+   2. TLD파일을 생성한다. Tag Library Descriptor의 약자로
+      WEB-INF폴더 하위 아무곳이나 생성하면 컨테이너가 찾아서 사용하게 된다.
+      우리는 tlds폴더를 생성한 후 해당 파일을 작성한다. 
+      파일 작성 시 fn.tld를  참조한다.
+   3. web.xml에 내가 정의한 태그라이브러리 파일을 설정한다.
+      taglib-uri : JSP의 taglib지시어의 uri속성에 삽입할 값
+      taglib-location : 실제 tld 파일의 위치(경로를 삽입함)
+   4. jsp파일에서 EL식으로 메소드를 호출한다.
+      페이지 상단에 taglib 지시어를 통한 디렉티브를 추가한 후
+      ${접두어:메소드명(인자)} 형태로 호출한다.
+-->
+   <jsp-config>
+      <taglib>
+         <taglib-uri>myTagLibTld</taglib-uri>
+         <taglib-location>/WEB-INF/tlds/MyTagLib.tld</taglib-location>
+      </taglib>
+   </jsp-config>
+  
+   
+   
+   
+   <!-- 서블릿 등록(매핑)하기 -->
+   <!-- 예제 1 : JSP파일 없이 서블릿에서 즉시 내용을 출력 -->
+   <servlet>
+      <servlet-name>NoJSPServlet</servlet-name>
+      <!-- 요청명과 매핑되는 서블릿 클래스명 기술(패키지를 반드시 포함해야함) -->
+      <servlet-class>servlet.NoJSPServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <!-- 해당 요청이 등러왔을 때 호출 할 서블릿의 이름을 지정 -->
+      <servlet-name>NoJSPServlet</servlet-name>
+      <!-- 요청명을 기술함 -->
+      <url-pattern>/13Servlet/NoJSPServlet.do</url-pattern>
+   </servlet-mapping>
+   
+   
+   <!-- 예제 2 : JSP파일에서 내용을 출력함. 또한 서블릿 초기화 파라미터 이용함. -->
+   <servlet>
+      <servlet-name>HelloServlet</servlet-name>
+      <servlet-class>servlet.HelloServlet</servlet-class>
+      <init-param>
+         <param-name>HELLO</param-name>
+         <param-value>HI! HELLO! 안녕! web.xml</param-value>
+      </init-param>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>HelloServlet</servlet-name>
+      <url-pattern>/13Servlet/HelloServlet.do</url-pattern>
+   </servlet-mapping>
+   
+   <!-- 예제 3 : 어노테이션을 통한 매핑이므로 매핑 엘리먼트 없음 -->
+   
+   <!-- 예제 4 : 간단한 사칙연산 계산기 구현 -->
+   <servlet>
+      <servlet-name>CalculateServlet</servlet-name>
+      <servlet-class>servlet.CalculateServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>CalculateServlet</servlet-name>
+      <url-pattern>/Servlet/Calculate.kosmo</url-pattern>
+   </servlet-mapping>
+   
+   
+   <!-- 예제 5 : 간단한 MVC패턴 만들기 -->
+   <!-- 
+      요청명 작성시 컨텍스트 루트 경로를 제외한 슬러쉬로 시작하는
+      경로를 사용해야 한다. 슬러쉬가 없으면 서버가 재시동 되지 않는다.
+      요청명을 통해 해당 이름을 가진 서블릿 클래스를 찾아 요청을 전달한다. 
+      요청명에 대한 매핑시 엘리먼트의 순서를 변경할 수
+      없다.
+    -->
+   <servlet>
       <servlet-name>SimpleMVC</servlet-name>
       <servlet-class>servlet.SimpleMVC</servlet-class>
    </servlet>
@@ -115,43 +129,105 @@
       <url-pattern>/13Servlet/SimpleMVC</url-pattern>
    </servlet-mapping>
    <!-- 
-      서블릿 호출의 위한 순서
-   1.요청명을 결정한다.
-   2. 요청명에 대한 매핑 처리를 한다 이때 요청명과
-   해당요청을 처리할 서블릿 클래스가 매핑된다
-    -->
+      서블릿 호출을 위한 순서
+      1. 요청명을 결정한다.
+      2. 요청명에 대한 매핑 처리를 한다. 이때 요청명과
+         해당 요청을 처리 할 서블릿 클래스가 매핑된다.
+      3. 사용자의 요청이 서블릿(Controller)으로 전달되고 서블릿은 요청을 분석한다.
+      4. 분석한 요청에 따라 model(모델)을 사용하여 기능을 수행한다.
+      5. 기능을 수행한 후 필요한 데이터를 request 혹은 session영여에
+         저장한다.
+      6. View에 해당하는 JSP페이지를 찾아 포워드한다.
+      7. View에서는 영역에 저장된 데이터를 가져와서 화면에 출력한다.
+   -->
+   
+   
    
    
    <!-- 서블릿으로 게시판 만들기 -->
-   
+   <!-- 자료실 리스트 -->
    <servlet>
-   	<servlet-name>DataRoomList</servlet-name>
-   	<servlet-class>controller.ListCtrl</servlet-class>
+      <servlet-name>DataRoomList</servlet-name>
+      <servlet-class>controller.ListCtrl</servlet-class>
    </servlet>
    <servlet-mapping>
-   	<servlet-name>DataRoomList</servlet-name>
-   	<url-pattern>/DataRoom/DataList</url-pattern>
+      <servlet-name>DataRoomList</servlet-name>
+      <url-pattern>/DataRoom/DataList</url-pattern>
    </servlet-mapping>
    
    
+   <!-- 자료실 글쓰기 -->
+   <servlet>
+      <servlet-name>DataRoomWrite</servlet-name>
+      <servlet-class>controller.WriteCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomWrite</servlet-name>
+      <url-pattern>/DataRoom/DataWrite</url-pattern>
+   </servlet-mapping>
    
+   <!-- 게시글 상세보기(상세보기) -->
+   <servlet>
+      <servlet-name>DataRoomView</servlet-name>
+      <servlet-class>controller.ViewCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomView</servlet-name>
+      <url-pattern>/DataRoom/DataView</url-pattern>
+   </servlet-mapping>
+  
+	<!-- 수정 삭제 진입하기전 패스워드 검증폼 -->
+  <servlet>
+      <servlet-name>DataRoomPassword</servlet-name>
+      <servlet-class>controller.PasswordCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomPassword</servlet-name>
+      <url-pattern>/DataRoom/DataPassword</url-pattern>
+   </servlet-mapping>
+   <!-- 삭제처리 -->
+   <servlet>
+      <servlet-name>DataRoomDelete</servlet-name>
+      <servlet-class>controller.DeleteCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomDelete</servlet-name>
+      <url-pattern>/DataRoom/DataDelete</url-pattern>
+   </servlet-mapping>
    
-   
-   
-   
-  <!-- 
-  해당 웹어플리케이션을 실행했을떄 파일명을 명시하지 않으면
-  아래 파일리스트에 기술된 파일을 순서대로 찾아서 실행한다
-  만약 해당 파일이 없다면 404(페이지없음) 에러가 발생한다.
+   <!-- 자료실 수정 -->
+   <servlet>
+      <servlet-name>DataRoomEdit</servlet-name>
+      <servlet-class>controller.EditCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomEdit</servlet-name>
+      <url-pattern>/DataRoom/DataEdit</url-pattern>
+   </servlet-mapping>
+  
+  
+  <!-- 파일다운로드 -->
+  <servlet>
+      <servlet-name>DataRoomDowmload</servlet-name>
+      <servlet-class>controller.DowmloadCtrl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>DataRoomDowmload</servlet-name>
+      <url-pattern>/DataRoom/Dowmload</url-pattern>
+   </servlet-mapping>
+  <!--
+     해당 웹어플리케이션을 실행했을떄 파일명을 명시하지 않으면
+     아래 파일리스트에 기술된 파일을 찾아서 순서대로 찾아서 실행한다.
+     만약 해당 파일이 없으면 404(페이지없음) 에러가 발생한다.
    -->
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>HelloJSP.jsp</welcome-file>
-    
-  </welcome-file-list>
+   <welcome-file-list>
+       <welcome-file>index.html</welcome-file>
+       <welcome-file>index.htm</welcome-file>
+       <welcome-file>index.jsp</welcome-file>
+       <welcome-file>default.html</welcome-file>
+       <welcome-file>default.htm</welcome-file>
+       <welcome-file>default.jsp</welcome-file>
+       <welcome-file>HelloJSP.jsp</welcome-file>
+   </welcome-file-list>
+  
 </web-app>
