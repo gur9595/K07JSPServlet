@@ -14,8 +14,7 @@
 			
 			<div class="row">
 			<!-- 검색부분 -->
-			<form class="form-
-			inline ml-auto" name="searchFrm" method="get">	
+			<form class="form-inline ml-auto" name="searchFrm" method="get">	
 				<div class="form-group">
 					<select name="searchColumn" class="form-control">
 						<option value="title">제목</option>

@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 public class SMTPAuth extends Authenticator{
 	@Override
 	protected PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication("gur9595", "cv46797946!@");
+		return new PasswordAuthentication("아이디", "비밀번호");
 	}
 	
 	public boolean emailSending(Map<String, String> map) {

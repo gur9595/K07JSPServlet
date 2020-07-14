@@ -26,7 +26,7 @@ request.setAttribute("member", new MemberDTO("sung","9999","성춘",null));
 <%
 String pageURL="ParamActionIncludeResult.jsp?query=반갑습니다";
 String paramValue="KOSM";
-request.setAttribute("member", new MemberDTO("Lee","7777","이몽룡",null))
+request.setAttribute("member", new MemberDTO("Lee","7777","이몽룡",null));
 %>
 <%-- <jsp:forward page="<%=pageURL %>">
 	<jsp:param value="한국소프트웨어 인재개발원" name="name"/>

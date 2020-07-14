@@ -185,6 +185,7 @@
       <servlet-name>DataRoomPassword</servlet-name>
       <url-pattern>/DataRoom/DataPassword</url-pattern>
    </servlet-mapping>
+   
    <!-- 삭제처리 -->
    <servlet>
       <servlet-name>DataRoomDelete</servlet-name>

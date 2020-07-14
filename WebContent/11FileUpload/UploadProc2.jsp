@@ -141,7 +141,7 @@ try{
 		<li>
 		서버에 저장된 파일명(변경후) : <%=realFileName %>
 		</li>
-		
+	
 		<li>
 		컨텐츠타입 : <%=mr.getContentType("chumFile1") %>
 		</li>
